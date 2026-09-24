@@ -7,6 +7,7 @@
     { path: '/houses', label: '染坊', hint: '水源与坊务' },
     { path: '/vats', label: '染缸', hint: '纤维与容量' },
     { path: '/lots', label: '染程', hint: '配方开缸' },
+    { path: '/combine', label: '拼缸合染', hint: '多缸合批锁定' },
     { path: '/checks', label: '色牢度', hint: '抽检回写' },
   ];
 

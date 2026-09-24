@@ -51,12 +51,25 @@ docker compose down
 2. **Vat** — `dyeHouseId`, `vatCode`, `fiberType`, `capacityL`, `status` ∈ `ready|dyeing|drain`
 3. **DyeLot** — `vatId`, `recipeName`, `fabricKg`, `startedAt`, `operatorName`
 4. **FastnessCheck** — `dyeLotId`, `checkedAt`, `washFastness`(1–5), `rubFastness`(>0), `tempC`, `notes`
+5. **CombineBatch**（拼缸合染）— `dyeHouseId`, `batchCode`, `fabricLimitKg`, `status` ∈ `grouping|locked`
+6. **CombineBatchVat**（合批成员行）— `batchId`, `vatId`
 
 ### 规则
 
 - 仅当染缸状态为 `ready` 或 `dyeing` 时可新建染程，否则 409
 - 新建染程后，染缸状态自动设为 `dyeing`
 - 可选接口：`POST /api/vats/{id}/drain` 将染缸置为 `drain`
+
+### 拼缸合染（布重上限规则）
+
+- 合批字段：所属染坊、合批号、布重上限（千克）、状态（`grouping` 组批中 / `locked` 已锁定）。**同坊合批号唯一**。
+- 成员行为「合批编号 + 染缸编号」。成员缸必须**属同一染坊且状态为就绪（ready）**；一口缸同时只能挂在**一个**合批上（无论组批中还是已锁定），重复占用返回 409。
+- 组批中允许随时加减成员（整表替换）；**已锁定后禁止改成员、改合批字段或删除**，非法改动一律 409。
+- **锁定校验（不满足任一即 409，杜绝无校验的空成员表锁定）：**
+  1. 成员至少 **两口缸**；
+  2. 各缸**最新染程**（按 `startedAt` 取最近，无染程按 0）布重之和 **≤ 布重上限**。
+- 锁定后成员缸冻结，禁止单独改挂到其他合批。
+- 种子数据含一批两口就绪缸（`HB-DEMO-01`，合计 55kg / 上限 120kg），可直接锁定演示。
 
 ## 主要 API
 
@@ -66,7 +79,8 @@ docker compose down
 - `GET/POST/PUT/DELETE /api/vats` · `POST /api/vats/{id}/drain`
 - `GET/POST/PUT/DELETE /api/dye-lots`
 - `GET/POST/PUT/DELETE /api/fastness-checks`
-- `GET /api/dashboard/stats`
+- `GET/POST/PUT/DELETE /api/combine-batches` · `PUT /api/combine-batches/{id}/members`（加减成员）· `POST /api/combine-batches/{id}/lock`（锁定）
+- `GET /api/dashboard/stats`（含 `combineGroupingCount` 组批中批次数）
 
 除登录外需 `Authorization: Bearer <token>`。字段对外为 camelCase。
 

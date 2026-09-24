@@ -9,6 +9,7 @@ from app.database import get_db
 from app.models.dye_house import DyeHouse
 from app.models.dye_lot import DyeLot
 from app.models.fastness_check import FastnessCheck
+from app.models.combine_batch import CombineBatch
 from app.models.user import User
 from app.models.vat import Vat
 from app.schemas.dashboard import DashboardStats
@@ -35,6 +36,12 @@ def get_stats(
         checks_last_24h=(
             db.query(func.count(FastnessCheck.id))
             .filter(FastnessCheck.checked_at >= now - timedelta(hours=24))
+            .scalar()
+            or 0
+        ),
+        combine_grouping_count=(
+            db.query(func.count(CombineBatch.id))
+            .filter(CombineBatch.status == "grouping")
             .scalar()
             or 0
         ),

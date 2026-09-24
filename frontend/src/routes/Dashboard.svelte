@@ -44,17 +44,36 @@
       <div class="n">{stats.checksLast24h}</div>
       <div class="l">近 24 时抽检</div>
     </div>
+    <a class="stat stat-link" href="/combine" use:link>
+      <div class="n">{stats.combineGroupingCount}</div>
+      <div class="l">组批中批次</div>
+    </a>
   </div>
 {/if}
 
 <div class="panel">
   <p style="margin:0 0 0.75rem;color:var(--indigo-mist);font-size:0.9rem;">
     业务约束：仅当染缸为 <strong>ready</strong> 或 <strong>dyeing</strong> 时可新建染程；新建后染缸自动变为 dyeing。排液可用染缸「完成排液」动作。
+    <br />拼缸合染：成员须为同坊就绪缸，一口缸同时只能进一个合批；至少两口缸、各缸最新染程布重之和不超布重上限方可锁定，锁定后成员冻结。
   </p>
   <div class="toolbar">
     <a class="btn" href="/houses" use:link>进入染坊</a>
     <a class="btn ghost" href="/vats" use:link>管理染缸</a>
     <a class="btn ghost" href="/lots" use:link>登记染程</a>
+    <a class="btn ghost" href="/combine" use:link>拼缸合染</a>
     <a class="btn ghost" href="/checks" use:link>色牢度抽检</a>
   </div>
 </div>
+
+<style>
+  .stat-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: 0.15s ease;
+  }
+
+  .stat-link:hover {
+    border-color: rgba(107, 92, 231, 0.7);
+  }
+</style>
