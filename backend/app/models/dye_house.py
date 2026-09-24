@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.database import Base
 
 if TYPE_CHECKING:
+    from app.models.combined_batch import CombinedBatch
     from app.models.vat import Vat
 
 
@@ -19,4 +20,7 @@ class DyeHouse(Base):
 
     vats: Mapped[List["Vat"]] = relationship(
         "Vat", back_populates="dye_house", cascade="all, delete-orphan"
+    )
+    combined_batches: Mapped[List["CombinedBatch"]] = relationship(
+        "CombinedBatch", back_populates="dye_house", cascade="all, delete-orphan"
     )

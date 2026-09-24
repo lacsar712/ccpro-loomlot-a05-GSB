@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.auth import get_current_user
 from app.database import get_db
+from app.models.combined_batch import CombinedBatch
 from app.models.dye_house import DyeHouse
 from app.models.dye_lot import DyeLot
 from app.models.fastness_check import FastnessCheck
@@ -26,6 +27,12 @@ def get_stats(
         dye_house_total=db.query(func.count(DyeHouse.id)).scalar() or 0,
         vat_ready_count=db.query(func.count(Vat.id)).filter(Vat.status == "ready").scalar() or 0,
         vat_dyeing_count=db.query(func.count(Vat.id)).filter(Vat.status == "dyeing").scalar() or 0,
+        batch_grouping_count=(
+            db.query(func.count(CombinedBatch.id))
+            .filter(CombinedBatch.status == "grouping")
+            .scalar()
+            or 0
+        ),
         lots_last_7d=(
             db.query(func.count(DyeLot.id))
             .filter(DyeLot.started_at >= now - timedelta(days=7))

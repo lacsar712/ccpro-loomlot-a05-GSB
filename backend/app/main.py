@@ -9,6 +9,7 @@ from app.routers import (
     vats,
     dye_lots,
     fastness_checks,
+    combined_batches,
     dashboard,
 )
 
@@ -40,6 +41,7 @@ app.include_router(dye_houses.router)
 app.include_router(vats.router)
 app.include_router(dye_lots.router)
 app.include_router(fastness_checks.router)
+app.include_router(combined_batches.router)
 app.include_router(dashboard.router)
 
 

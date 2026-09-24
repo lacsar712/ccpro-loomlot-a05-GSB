@@ -210,6 +210,22 @@ th {
   border-color: rgba(224, 168, 74, 0.45);
 }
 
+.badge.grouping {
+  color: #b8a8ff;
+  border-color: rgba(107, 92, 231, 0.55);
+  background: rgba(107, 92, 231, 0.15);
+}
+
+.badge.locked {
+  color: var(--ok);
+  border-color: rgba(76, 175, 130, 0.45);
+}
+
+.over {
+  color: var(--danger);
+  font-weight: 500;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;

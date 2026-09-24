@@ -53,3 +53,8 @@ export const VAT_STATUS = {
   dyeing: '染色中',
   drain: '排液',
 };
+
+export const BATCH_STATUS = {
+  grouping: '组批中',
+  locked: '已锁定',
+};

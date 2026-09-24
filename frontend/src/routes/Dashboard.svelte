@@ -37,6 +37,10 @@
       <div class="l">染色中</div>
     </div>
     <div class="stat">
+      <div class="n">{stats.batchGroupingCount}</div>
+      <div class="l">组批中合批</div>
+    </div>
+    <div class="stat">
       <div class="n">{stats.lotsLast7d}</div>
       <div class="l">近 7 日染程</div>
     </div>
@@ -49,11 +53,12 @@
 
 <div class="panel">
   <p style="margin:0 0 0.75rem;color:var(--indigo-mist);font-size:0.9rem;">
-    业务约束：仅当染缸为 <strong>ready</strong> 或 <strong>dyeing</strong> 时可新建染程；新建后染缸自动变为 dyeing。排液可用染缸「完成排液」动作。
+    业务约束：仅当染缸为 <strong>ready</strong> 或 <strong>dyeing</strong> 时可新建染程；新建后染缸自动变为 dyeing。排液可用染缸「完成排液」动作。拼缸合染：同坊就绪缸可组批，锁定需至少两口缸且各缸最新染程布重之和不超过布重上限。
   </p>
   <div class="toolbar">
     <a class="btn" href="/houses" use:link>进入染坊</a>
     <a class="btn ghost" href="/vats" use:link>管理染缸</a>
+    <a class="btn ghost" href="/batches" use:link>拼缸合染</a>
     <a class="btn ghost" href="/lots" use:link>登记染程</a>
     <a class="btn ghost" href="/checks" use:link>色牢度抽检</a>
   </div>
